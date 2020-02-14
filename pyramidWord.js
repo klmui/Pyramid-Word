@@ -39,7 +39,7 @@ $("input[type='text']").keypress(function (event) {
             for (var [key, value] of Object.entries(letterCounter)) {
                 counts.push(value);
             }
-
+            counts = counts.sort();
             // Add the word to the ul and indicate whether it is a pyramid word or not
             if (counts.length === 1) {
                 $("ul").append("<li><span><i class='fa fa-trash'></i></span> <i class='fa fa-check check-li mr-3'></i> " + word + "</li>");
@@ -47,6 +47,7 @@ $("input[type='text']").keypress(function (event) {
                 for (var i = 1; i < size; i++) {
                     if (counts[i] !== counts[i - 1] + 1) {
                         $("ul").append("<li><span><i class='fa fa-trash'></i></span> <i class='fa fa-times error-li mr-3'></i> " + word + "</li>");
+                        console.log(counts);
                         return;
                     }
                 }
