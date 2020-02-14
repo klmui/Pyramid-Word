@@ -16,13 +16,13 @@ $("input[type='text']").keypress(function (event) {
     if (event.which === 13) {
         var word = $(this).val().toLowerCase();
         if (word === "") {
-            alert("Please enter a word with no spaces.");
+            alert("Please enter a word with no spaces and digits.");
         } else {
             $(this).val("");
             for (var i = 0; i < word.length; i++) {
                 // Check if the word has any spaces or is not a letter
                 if (word[i] === " " || (word[i] === word[i].toUpperCase())) {
-                    alert("Please enter a word with no spaces and only letters.");
+                    alert("Please enter a word with no spaces and digits.");
                     return;
                 } else {
                     // Track the number of times each character appears
