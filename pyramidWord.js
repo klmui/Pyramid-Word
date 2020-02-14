@@ -8,17 +8,50 @@ $("ul").on("click", "span", function (event) {
     event.stopPropagation(); // jQuery that will prevent event from bubbling up
 });
 
-// Add the word to the list of words when the user clicks enter
+// Check if the word the user entered is a pyramid word
 $("input[type='text']").keypress(function (event) {
+    var size = 0;
+    var letterCounter = {};
     // Check for enter key
     if (event.which === 13) {
-        var word = $(this).val();
+        var word = $(this).val().toLowerCase();
         if (word === "") {
-            alert("Please enter a word.");
+            alert("Please enter a word with no spaces.");
         } else {
             $(this).val("");
-            // Create a new li and add to ul
-            $("ul").append("<li><span><i class='fa fa-trash'></i></span> " + word + "</li>");
+            for (var i = 0; i < word.length; i++) {
+                // Check if the word has any spaces
+                if (word[i] === " " || (word[i] === word[i].toUpperCase())) {
+                    alert("Please enter a word with no spaces and only letters.");
+                    return;
+                } else {
+                    if (isNaN(letterCounter[word[i]])) {
+                        letterCounter[word[i]] = 1;
+                        size++;
+                    } else {
+                        letterCounter[word[i]] += 1;
+                    }
+                }
+            }
+            console.log(letterCounter);
+            // Convert the letterCounter to an array to be sorted
+            counts = []
+            for (var [key, value] of Object.entries(letterCounter)) {
+                counts.push(value);
+            }
+            console.log("Counts " + counts);
+            console.log("Counts sorted " + counts.sort());
+            if (counts.length === 1) {
+                $("ul").append("<li><span><i class='fa fa-trash'></i></span> <i class='fa fa-check check-li mr-3'></i> " + word + "</li>");
+            } else {
+                for (var i = 1; i < size; i++) {
+                    if (counts[i] !== counts[i - 1] + 1) {
+                        $("ul").append("<li><span><i class='fa fa-trash'></i></span> <i class='fa fa-times error-li mr-3 text-danger'></i> " + word + "</li>");
+                        return;
+                    }
+                }
+                $("ul").append("<li><span><i class='fa fa-trash'></i></span> <i class='fa fa-check check-li mr-3'></i> " + word + "</li>");
+            }
         }
     }
 });
